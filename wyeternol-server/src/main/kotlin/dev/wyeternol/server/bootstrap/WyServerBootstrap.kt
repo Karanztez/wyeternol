@@ -11,7 +11,7 @@ import dev.wyeternol.game.WyGameModule
 import dev.wyeternol.server.adapter.MinestomWyServer
 import dev.wyeternol.server.adapter.MinestomWyWorld
 import dev.wyeternol.world.generator.WyBlockModifier
-import dev.wyeternol.world.generator.WyFlatGenerator
+import dev.wyeternol.world.generator.WyLobbyGenerator
 import net.minestom.server.Auth
 import net.minestom.server.MinecraftServer
 import net.minestom.server.coordinate.Pos
@@ -19,6 +19,7 @@ import net.minestom.server.event.player.AsyncPlayerConfigurationEvent
 import net.minestom.server.event.player.PlayerChatEvent
 import net.minestom.server.event.player.PlayerDisconnectEvent
 import net.minestom.server.event.player.PlayerSpawnEvent
+import net.minestom.server.instance.LightingChunk
 import net.minestom.server.instance.block.Block
 import org.slf4j.LoggerFactory
 import java.util.Scanner
@@ -49,10 +50,19 @@ class WyServerBootstrap(
         // 3. Initialize Default World & Procedural Generator
         val instanceManager = MinecraftServer.getInstanceManager()
         val defaultInstance = instanceManager.createInstanceContainer()
-        val flatGenerator = WyFlatGenerator()
 
+        // Enable Lighting Engine (Realistic Sky Light and Block Light)
+        defaultInstance.setChunkSupplier { instance, chunkX, chunkZ ->
+            LightingChunk(instance, chunkX, chunkZ)
+        }
+
+        // Set Sunny Noon (Direct Overhead Sunlight: 6000 ticks)
+        defaultInstance.time = 6000
+        logger.info("[World] Daylight set to sunny noon (6000 ticks) and LightingChunk enabled.")
+
+        val lobbyGenerator = WyLobbyGenerator()
         defaultInstance.setGenerator { unit ->
-            flatGenerator.generateChunk(
+            lobbyGenerator.generateChunk(
                 unit.absoluteStart().blockX(),
                 unit.absoluteStart().blockZ(),
                 object : WyBlockModifier {
@@ -142,12 +152,6 @@ class WyServerBootstrap(
     }
 
     private fun resolveBlock(block: WyBlock): Block {
-        return when (block.id) {
-            "minecraft:bedrock" -> Block.BEDROCK
-            "minecraft:dirt" -> Block.DIRT
-            "minecraft:grass_block" -> Block.GRASS_BLOCK
-            "minecraft:stone" -> Block.STONE
-            else -> Block.STONE
-        }
+        return Block.fromKey(block.id) ?: Block.STONE
     }
 }

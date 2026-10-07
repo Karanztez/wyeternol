@@ -1,7 +1,7 @@
 import urllib.request
 import json
 
-url = "https://api.github.com/repos/Karanztez/wyeternol/actions/runs/37630309176/jobs"
+url = "https://api.github.com/repos/Karanztez/wyeternol/actions/runs/37631488431/jobs"
 req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
 try:
     with urllib.request.urlopen(req) as resp:
