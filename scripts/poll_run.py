@@ -3,7 +3,7 @@ import json
 import time
 import sys
 
-run_id = "37629700346"
+run_id = "37630309176"
 url = f"https://api.github.com/repos/Karanztez/wyeternol/actions/runs/{run_id}"
 
 for _ in range(12):

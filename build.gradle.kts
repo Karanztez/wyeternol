@@ -4,9 +4,11 @@ plugins {
     `maven-publish`
 }
 
+val packageVersion = System.getenv("GITHUB_RUN_NUMBER")?.let { "1.0.$it" } ?: "1.0.1"
+
 allprojects {
     group = "dev.wyeternol"
-    version = "1.0.0"
+    version = packageVersion
 
     repositories {
         mavenCentral()
