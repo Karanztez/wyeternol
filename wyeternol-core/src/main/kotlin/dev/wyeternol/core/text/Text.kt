@@ -22,4 +22,7 @@ object Text {
 
     fun muted(text: String): Component =
         Component.text(text, NamedTextColor.GRAY)
+
+    fun plain(text: String): Component =
+        Component.text(text)
 }
