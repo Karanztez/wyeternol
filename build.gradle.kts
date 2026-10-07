@@ -47,6 +47,16 @@ subprojects {
         publications {
             create<MavenPublication>("gpr") {
                 from(components["java"])
+                pom {
+                    name.set(project.name)
+                    description.set("WyEternol module ${project.name}")
+                    url.set("https://github.com/Karanztez/wyeternol")
+                    scm {
+                        connection.set("scm:git:git://github.com/Karanztez/wyeternol.git")
+                        developerConnection.set("scm:git:ssh://github.com:Karanztez/wyeternol.git")
+                        url.set("https://github.com/Karanztez/wyeternol")
+                    }
+                }
             }
         }
     }
