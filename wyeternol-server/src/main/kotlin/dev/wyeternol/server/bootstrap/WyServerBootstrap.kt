@@ -12,6 +12,7 @@ import dev.wyeternol.server.adapter.MinestomWyServer
 import dev.wyeternol.server.adapter.MinestomWyWorld
 import dev.wyeternol.world.generator.WyBlockModifier
 import dev.wyeternol.world.generator.WyLobbyGenerator
+import net.kyori.adventure.text.Component
 import net.minestom.server.Auth
 import net.minestom.server.MinecraftServer
 import net.minestom.server.coordinate.Pos
@@ -19,8 +20,10 @@ import net.minestom.server.event.player.AsyncPlayerConfigurationEvent
 import net.minestom.server.event.player.PlayerChatEvent
 import net.minestom.server.event.player.PlayerDisconnectEvent
 import net.minestom.server.event.player.PlayerSpawnEvent
+import net.minestom.server.event.server.ServerListPingEvent
 import net.minestom.server.instance.LightingChunk
 import net.minestom.server.instance.block.Block
+import net.minestom.server.ping.Status
 import org.slf4j.LoggerFactory
 import java.util.Scanner
 
@@ -82,6 +85,16 @@ class WyServerBootstrap(
 
         // 4. Bridge Engine Events to WyEternol Domain Events
         val globalEventHandler = MinecraftServer.getGlobalEventHandler()
+
+        // Customize Server List Display & Protocol Version Name
+        globalEventHandler.addListener(ServerListPingEvent::class.java) { event ->
+            val protocol = event.status?.versionInfo()?.protocolVersion() ?: 776
+            val status = Status.builder(event.status)
+                .versionInfo(Status.VersionInfo("WyEternol 26.2", protocol))
+                .description(Component.text("§b§lWyEternol §8» §aCelestial Lobby §7[§e26.2§7]\n§f⚡ High-Performance Core Engine"))
+                .build()
+            event.status = status
+        }
 
         globalEventHandler.addListener(AsyncPlayerConfigurationEvent::class.java) { event ->
             event.spawningInstance = defaultInstance
