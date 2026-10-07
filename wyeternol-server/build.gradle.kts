@@ -14,6 +14,10 @@ application {
     mainClass.set("dev.wyeternol.server.ServerRunnerKt")
 }
 
+tasks.jar {
+    archiveClassifier.set("thin")
+}
+
 tasks.shadowJar {
     archiveBaseName.set("wyeternol-server")
     archiveClassifier.set("")
