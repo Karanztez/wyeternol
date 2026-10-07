@@ -15,4 +15,6 @@ build/
 Thumbs.db
 
 # Kotlin compilation cache
-.kotlin/
+.kotlin
+*.zip
+resourcepack/

@@ -1,0 +1,10 @@
+import subprocess
+
+jar = "build/wyeternol-server.jar"
+res = subprocess.run(["javap", "-cp", jar, "net.minestom.server.inventory.Inventory"], capture_output=True, text=True)
+for line in res.stdout.splitlines():
+    if "open" in line.lower() or "condition" in line.lower() or "item" in line.lower():
+        print(line)
+
+res2 = subprocess.run(["javap", "-cp", jar, "net.minestom.server.inventory.InventoryType"], capture_output=True, text=True)
+print(res2.stdout)

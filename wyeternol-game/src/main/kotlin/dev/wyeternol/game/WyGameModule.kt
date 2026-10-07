@@ -2,6 +2,7 @@ package dev.wyeternol.game
 
 import dev.wyeternol.core.server.WyServer
 import dev.wyeternol.game.command.WyGamemodeCommand
+import dev.wyeternol.game.command.WyGrimoireCommand
 import dev.wyeternol.game.command.WyMemoryCommand
 import dev.wyeternol.game.command.WyStopCommand
 import dev.wyeternol.game.listener.WyPlayerLifecycleListener
@@ -17,6 +18,7 @@ class WyGameModule(private val server: WyServer) {
         server.registerCommand(WyStopCommand(server))
         server.registerCommand(WyGamemodeCommand())
         server.registerCommand(WyMemoryCommand(server))
+        server.registerCommand(WyGrimoireCommand())
 
         // Register Event Listeners
         WyPlayerLifecycleListener(server).register(server.eventBus)

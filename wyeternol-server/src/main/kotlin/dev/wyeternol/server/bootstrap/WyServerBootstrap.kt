@@ -131,6 +131,21 @@ class WyServerBootstrap(
             }
         }
 
+        // GUI Interactive Click Dispatcher
+        globalEventHandler.addListener(net.minestom.server.event.inventory.InventoryPreClickEvent::class.java) { event ->
+            val minestomPlayer = wyServer.getOrCreatePlayer(event.player) as? dev.wyeternol.server.adapter.MinestomWyPlayer ?: return@addListener
+            val currentGui = minestomPlayer.currentGui ?: return@addListener
+            event.isCancelled = true // Prevent dragging/stealing GUI items
+
+            val clickedItem = currentGui.items[event.slot]
+            clickedItem?.onClick?.invoke(minestomPlayer)
+        }
+
+        globalEventHandler.addListener(net.minestom.server.event.inventory.InventoryCloseEvent::class.java) { event ->
+            val minestomPlayer = wyServer.getOrCreatePlayer(event.player) as? dev.wyeternol.server.adapter.MinestomWyPlayer ?: return@addListener
+            minestomPlayer.currentGui = null
+        }
+
         // 5. Initialize Game Systems & Commands
         val gameModule = WyGameModule(wyServer)
         gameModule.initialize()

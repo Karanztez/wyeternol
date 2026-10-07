@@ -14,4 +14,7 @@ interface WyPlayer : WyCommandSender {
     var permissionLevel: Int
 
     fun teleport(target: WyPosition)
+    fun openGui(gui: dev.wyeternol.core.gui.WyGui)
+    fun closeGui()
+    fun playSound(soundKey: String, volume: Float = 1.0f, pitch: Float = 1.0f)
 }
