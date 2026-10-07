@@ -5,7 +5,7 @@ import dev.wyeternol.core.gui.WyGuiItem
 import dev.wyeternol.core.text.Text
 
 class WyGrimoireGui : WyGui {
-    override val title: String = "§6§lCelestial Grimoire §8» §fQuest & Arcana"
+    override val title: String = "\uF80B\uF801\uE001"
     override val rows: Int = 6
 
     override val items: Map<Int, WyGuiItem> = buildMap {
